@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Watch</title>
+    
+    <!-- icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        /* this code is changed in media queries */
+        *{margin: 0; padding: 0; box-sizing: border-box;}
+        a {text-decoration: none;}
+        button, input[type="submit"] {cursor: pointer;}
+        html{font-family: "Lexend", system-ui, sans-serif; font-size: 15px;}
+        body{font-size: 16px;}
+        img{vertical-align: bottom;}
+        h1{font-size: 2.5rem;}
+        h2{font-size: 2rem;}
+        h3{font-size: 1.4rem;}
+        h4{font-size: 1.2rem;}
+        p {margin: 0.8rem 0;}
+        div {margin-top: 1rem;}
+        body {background: purple; padding: 1rem;}
+        .btn, select, [type="submit"], input[type="reset"], input[type="text"],input[type="number"],input[type="password"],input[type="search"],input[type="email"]{ height: 36px; padding: 8px 12px; border: 1px solid rgb(233, 219, 219); color: inherit; border-radius: 5px; vertical-align: middle; margin: 5px;}
+
+        /* google font */
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Orbitron:wght@400..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+        body{
+            background: #444 url(./img/clock.jpg) no-repeat center/cover;
+            height: 100vh;
+            padding: 0;
+        }
+        .title {color: rgb(240, 215, 215); text-align: center; margin: 1rem 0;}
+
+        .stop-watch {
+            position: relative;
+            max-width: 420px;
+            box-shadow: 0 0 14px rgb(16, 0, 27);
+            padding: 4rem 0;
+            margin: 100px auto 0;
+            text-align: center;
+            border-radius: 8px;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(26, 2, 29, 0.5));
+            z-index: 99;
+            overflow: hidden;
+            border: 10px;
+            border: 4px solid #fee;
+            transition: 0.4s;
+        }
+        .stop-watch::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 1, 18, 0.5);
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .stop-watch:hover {border-color: rgb(204, 95, 95);}
+        .stop-watch h2 {letter-spacing: 3px; color: rgb(192, 208, 126); font-size: 3rem;}
+        .buttons .btn {background: rgb(18, 16, 16); padding: 10px 1rem; font-weight: bold; color: #fff; transition: 0.4s;}
+        .buttons .btn:hover {background: rgb(11, 1, 16); color: rgb(238, 238, 166);}
+    </style>
+</head>
+
+<body>
+    
+    <h1 class="title">Start & Stop Watch</h1>
+    <div class="watch-bg">
+        <div class="stop-watch">
+            <h2 id="displayTime">00:00:00</h2>
+            <div class="buttons">
+                <button class="btn" title="Click to Stop" onclick="watchStop()">Stop</button>
+                <button class="btn" title="Click to Start" onclick="watchStart()">Start</button>
+                <button class="btn" title="Click to Reset" onclick="watchReset()">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!--jQuery added-->
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
+    <!-- easing events of jQuery -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script> -->
+    
+    <script>
+
+        // code for stop watch
+
+        let [seconds, minutes, hours] = [0,0,0];
+        let displayTime = document.getElementById("displayTime");
+        let timer = null;
+
+        function stopWatch() {
+            seconds++;
+            if(seconds == 60) {
+                seconds = 0;
+                minutes++;
+                if(minutes == 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+
+            let h = hours < 10 ? "0" + hours : hours;
+            let m = minutes < 10 ? "0" + minutes : minutes;
+            let s = seconds < 10 ? "0" + seconds : seconds;
+
+            displayTime.innerHTML = `${h}:${m}:${s}`;
+        }
+
+        function watchStart() {
+            if(timer !== null) {
+                clearInterval(timer);
+            }
+            timer = setInterval(stopWatch, 1000);
+        }
+
+        function watchStop() {
+            clearInterval(timer);
+        }
+
+        function watchReset() {
+            clearInterval(timer);
+            [seconds, minutes, hours] = [0,0,0];
+            displayTime.innerHTML = "00:00:00";
+        }
+
+
+        // change the bg color based on the below conditions
+        function changeBackground() {
+            const hr = new Date().getHours();
+            const myBody = document.querySelector("body");
+            if(hr >= 6 && hr < 19) {
+                myBody.style.backgroundColor = "#cc5858";
+            } else {
+                myBody.style.backgroundColor = "#aa2d99";
+            }
+        }
+        changeBackground();
+
+    </script>
+
+</body>
+</html> 
